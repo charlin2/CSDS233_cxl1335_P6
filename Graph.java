@@ -1,8 +1,10 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  * Graph implementation for P6
@@ -66,6 +68,8 @@ public class Graph {
                 Edge compareEdge = (Edge)o;
                 if (v1.name.equals(compareEdge.v1.name) && v2.name.equals(compareEdge.v2.name))
                     return true;
+                else if (v1.name.equals(compareEdge.v2.name) && v2.name.equals(compareEdge.v1.name))
+                    return true;
             }
             return false;
         }
@@ -85,6 +89,8 @@ public class Graph {
      * @return true if node is successfully added
      */
     public boolean addNode(String name) {
+        if (name == null)
+            return false;
         // check for duplicate, constant access with map
         if (adjList.get(name) == null) {
             adjList.put(name, new Vertex(name));
@@ -100,6 +106,8 @@ public class Graph {
      * @return true if at least one node is successfully added, false otherwise
      */
     public boolean addNodes(String[] names) {
+        if (names == null)
+            return false;
         int dupCount = 0;
         for (String name : names) {
             if (!addNode(name))
@@ -110,13 +118,13 @@ public class Graph {
     }
 
     /**
-     * 
-     * @param from
-     * @param to
-     * @return
+     * Adds an edge between two existing nodes
+     * @param from the first node to be connected
+     * @param to the second node to be connected
+     * @return true if the edge is successfully added, false otherwise
      */
     public boolean addEdge(String from, String to) {
-        if (from.equals(to))
+        if (from == null || to == null || from.equals(to))
             return false;
         // at least one of the vertices does not exist
         if (adjList.get(from) == null || adjList.get(to) == null)
@@ -131,7 +139,15 @@ public class Graph {
         return true;
     }
 
+    /**
+     * Adds multiple edges from one node to a list of others
+     * @param from the node to add multiple edges to
+     * @param tolist the list of nodes to connect to the node of origin
+     * @return true if at least one edge is added, false otherwise
+     */
     public boolean addEdges(String from, String[] tolist) {
+        if (tolist == null)
+            return false;
         int nullCount = 0;
         for (String to : tolist) {
             if (!addEdge(from, to))
@@ -141,16 +157,44 @@ public class Graph {
         return nullCount != tolist.length;
     }
 
+    /**
+     * Removes a node and all of its connections
+     * @param name the node to be removed
+     * @return true if the node is successfully removed, false otherwise
+     */
     public boolean removeNode(String name) {
-        // TODO
-        return false;
+        if (adjList.get(name) == null)
+            return false;
+        // visit node and remove all edges
+        for (Edge edge : adjList.get(name).edges) {
+            edge.v2.edges.remove(edge);
+        }
+        // remove from array and hashmap
+        vertices.remove(name);
+        adjList.remove(name);
+        return true;
     }
 
+    /**
+     * Removes nodes and their respective connections from a list of nodes
+     * @param nodelist the list of nodes to be removed
+     * @return true if at least one node is removed, false otherwise
+     */
     public boolean removeNodes(String[] nodelist) {
-        // TODO
-        return false;
+        if (nodelist == null)
+            return false;
+        int removedCount = 0;
+        for (String name : nodelist) {
+            if (removeNode(name))
+                removedCount++;
+        }
+        // if no nodes are removed, return false, true otherwise
+        return removedCount != 0;
     }
 
+    /**
+     * Prints a graph with nodes and all neighbors in alphabetical order
+     */
     public void printGraph() {
         Collections.sort(vertices);
         StringBuilder textGraph = new StringBuilder();
@@ -173,5 +217,25 @@ public class Graph {
             textGraph.append("\n");
         }
         System.out.println(textGraph.toString());
+    }
+
+    public Graph read(String filename) {
+        // TODO
+        return null;
+    }
+
+    public String[] DFS(String from, String to, String neighborOrder) {
+        // TODO
+        return null;
+    }
+
+    public String[] BFS(String from, String to, String neighborOrder) {
+        // TODO
+        return null;
+    }
+
+    public String[] secondShortestPath(String from, String to) {
+        // TODO
+        return null;
     }
 }
