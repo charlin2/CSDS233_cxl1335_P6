@@ -483,4 +483,29 @@ public class Graph {
         }
     }
 
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+        String[] nodes = {"A", "B", "C", "D", "E", "F", "G", "H"};
+        graph.addNodes(nodes);
+        String[] edgesA = {"B", "D", "E", "G", "H"};
+        String[] edgesB = {"C", "F", "H"};
+        String[] edgesC = {"D", "F", "G"};
+        String[] edgesD = {"E"};
+        String[] edgesE = {"F"};
+        String[] edgesF = {"G"};
+        String[] edgesG = {"H"};
+        graph.addEdges("A", edgesA);
+        graph.addEdges("B", edgesB);
+        graph.addEdges("C", edgesC);
+        graph.addEdges("D", edgesD);
+        graph.addEdges("E", edgesE);
+        graph.addEdges("F", edgesF);
+        graph.addEdges("G", edgesG);
+
+        System.out.println("Text representation of graph: \nA B D E G H\nB C F H\nC D F G\nD E\nE F\nF G\nG H\n");
+        System.out.println("BFS from A to C: " + Arrays.toString(graph.BFS("A", "C", "alphabetical")));
+        System.out.println("\nBFS from E to B: " + Arrays.toString(graph.BFS("E", "B", "alphabetical")));
+        System.out.println("\nDFS (alphabetical) from A to C: " + Arrays.toString(graph.DFS("A", "C", "alphabetical")));
+        System.out.println("\nDFS (reverse) from A to C: " + Arrays.toString(graph.DFS("A", "C", "reverse")));
+    }
 }
