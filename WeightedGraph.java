@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -318,12 +319,27 @@ public class WeightedGraph {
         return pathList.get(shortestInd);
     }
 
+    /**
+     * Private helper method for secondShortestPath
+     * 
+     * @param start start of the edge
+     * @param end end of the edge
+     * @param weight weight of the edge
+     * @return the removed edge
+     */
     private Edge removeEdge(String start, String end, int weight) {
         Edge edge = new Edge(adjList.get(start), adjList.get(end), weight);
         adjList.get(start).edges.remove(edge);
         return edge;
     }
 
+    /**
+     * Private helper method for secondShortestPath
+     * 
+     * @param start start of the edge
+     * @param end end of the edge
+     * @return the weight of the edge
+     */
     private int getCost(String start, String end) {
         Edge edge = new Edge(adjList.get(start), adjList.get(end), 0);
         for (Edge e : adjList.get(start).edges) {
@@ -341,6 +357,31 @@ public class WeightedGraph {
             adjList.get(vertex).parent = null;
             adjList.get(vertex).visited = false;
             adjList.get(vertex).cost = Integer.MAX_VALUE;
+        }
+    }
+
+    public static void main(String[] args) {
+        WeightedGraph poland = new WeightedGraph();
+        try {
+            // copy entire file path of Poland.txt for demo to work
+            poland = poland.readWeighted("P6\\Poland.txt");
+            System.out.println("Using Poland and its cities for my demonstration:\n");
+            
+            System.out.println("Shortest route from Krakow to Gdansk: " + Arrays.toString(poland.shortestPath("Tarnow", "Warsaw")));
+            System.out.println("Second shortest route from Krakow to Gdansk: " + Arrays.toString(poland.secondShortestPath("Tarnow", "Warsaw")) + "\n");
+
+            System.out.println("Shortest route from Rzeszow to Bialystok: " + Arrays.toString(poland.shortestPath("Rzeszow", "Bialystok")));
+            System.out.println("Second shortest route from Rzeszow to Bialystok: " + Arrays.toString(poland.secondShortestPath("Rzeszow", "Bialystok")) + "\n");
+
+            System.out.println("Shortest route from Rzeszow to Bialystok: " + Arrays.toString(poland.shortestPath("Rzeszow", "Bialystok")));
+            System.out.println("Second shortest route from Rzeszow to Bialystok: " + Arrays.toString(poland.secondShortestPath("Rzeszow", "Bialystok")) + "\n");
+
+            System.out.println("Shortest route from Gdansk to Gdynia: " + Arrays.toString(poland.shortestPath("Gdansk", "Gdynia")));
+            System.out.println("Second shortest route from Gdansk to Gdynia: " + Arrays.toString(poland.secondShortestPath("Gdansk", "Gdynia")) + "\n");
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Make sure to specify the correct file path for Poland.txt");
         }
     }
 }

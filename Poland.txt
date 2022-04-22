@@ -1,0 +1,18 @@
+Warsaw 173 Lublin 198 Bialystok 105 Radom 259 Torun 312 Poznan
+Bialystok 198 Warsaw
+Lublin 173 Warsaw
+Torun 259 Warsaw 48 Bydgoszcz 
+Radom 105 Warsaw 81 Kielce
+Poznan 312 Warsaw 265 Szczecin 352 Gliwice 182 Wroclaw
+Kielce 81 Radom 114 Krakow
+Bydgoszcz 48 Torun 259 Szczecin 168 Gdansk
+Gdansk 168 Bydgoszcz 21 Gdynia
+Gdynia 21 Gdansk 178 Koszalin
+Koszalin 178 Gdynia 171 Szczecin
+Szczecin 171 Koszalin 259 Bydgoszcz 265 Poznan
+Wroclaw 182 Poznan 164 Gliwice 80 Walbrzych
+Walbrzych 80 Wroclaw
+Krakow 107 Gliwice 94 Tarnow 114 Kielce
+Tarnow 87 Rzeszow 94 Krakow
+Rzeszow 87 Tarnow
+Gliwice 107 Krakow 164 Wroclaw 352 Poznan
