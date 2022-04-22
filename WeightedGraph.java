@@ -185,6 +185,50 @@ public class WeightedGraph {
     }
 
     /**
+     * Removes a node from the Weighted Graph
+     * 
+     * @param name name of the node to be removed
+     * @return true if node is successfully removed, false otherwise
+     */
+    public boolean removeNode(String name) {
+        if (adjList.get(name) == null)
+            return false;
+        // remove edges pointing at node
+        for (String vertex : vertices) {
+            LinkedList<Edge> toBeRemoved = new LinkedList<Edge>();
+            for (Edge edge : adjList.get(vertex).edges) {
+                if (edge.end.name.equals(name))
+                    toBeRemoved.push(edge);
+            }
+            while (!toBeRemoved.isEmpty()) {
+                Edge edge = toBeRemoved.pop();
+                removeEdge(edge.start.name, edge.end.name, edge.weight);
+            }
+        }
+        // remove node
+        adjList.remove(name);
+        vertices.remove(name);
+        return true;
+    }
+
+    /**
+     * Removes a list of nodes from the graph
+     * 
+     * @param nodelist list of nodes to be removed
+     * @return true if all nodes are removed, false otherwise
+     */
+    public boolean removeNodes(String[] nodelist) {
+        if (nodelist == null)
+            return false;
+        int removedCount = 0;
+        for (String node : nodelist) {
+            if (removeNode(node))
+                removedCount++;
+        }
+        return removedCount == nodelist.length;
+    }
+
+    /**
      * Prints a weighted graph with all nodes and neighbors in alphabetical order
      */
     public void printWeightedGraph() {

@@ -7,7 +7,7 @@ public class WeightedGraphTest {
     WeightedGraph graph = new WeightedGraph();
 
     @Test
-    public void testAddWeightedEdge() {
+    public void testAddRemoveNodeEdge() {
         // return true if valid add, false if duplicate
         Assert.assertEquals(true, graph.addNode("A"));
         Assert.assertEquals(false, graph.addNode("A"));
@@ -63,8 +63,26 @@ public class WeightedGraphTest {
 
         String[] tolist2 = {"A", "D", "E"};
         int[] weightlist2 = {1, 2, 3, 4};
+
         // return false if tolist and weightlist are not the same length
         Assert.assertEquals(false, graph.addWeightedEdges("C", tolist2, weightlist2));
+
+        // Edge cases for removeNode
+        Assert.assertEquals(false, graph.removeNode(null));
+
+        // removing valid node returns true, false otherwise
+        Assert.assertEquals(true, graph.removeNode("A"));
+        Assert.assertEquals(false, graph.removeNode("A"));
+
+        // Edge cases for removeNodes
+        Assert.assertEquals(false, graph.removeNodes(null));
+
+        String[] nodelist = {"B", "C", "D"};
+        // return true if all nodes are removed
+        Assert.assertEquals(true, graph.removeNodes(nodelist));
+
+        // return false if at least one node is not removed
+        Assert.assertEquals(false, graph.removeNodes(nodelist));
     }
 
     @Test
@@ -92,6 +110,10 @@ public class WeightedGraphTest {
 
             Assert.assertEquals("[A, B, G]", Arrays.toString(graph.shortestPath("A", "G")));
 
+            // testing with removed node
+            graph.removeNode("G");
+            Assert.assertEquals("[A, C, D]", Arrays.toString(graph.shortestPath("A", "D")));
+
             // testing disconnected node
             graph.addNode("Z");
             Assert.assertEquals("[]", Arrays.toString(graph.shortestPath("A", "Z")));
@@ -112,9 +134,20 @@ public class WeightedGraphTest {
             Assert.assertEquals("[A, B, D, C]", Arrays.toString(graph.secondShortestPath("A", "C")));
             Assert.assertEquals("[]", Arrays.toString(graph.secondShortestPath("F", "A")));
 
+            // testing with removed node
+            graph.removeNode("D");
+            Assert.assertEquals("[]", Arrays.toString(graph.shortestPath("A", "C")));
+            Assert.assertEquals("[]", Arrays.toString(graph.secondShortestPath("A", "C")));
+
+            Assert.assertEquals("[A, B, E, G]", Arrays.toString(graph.shortestPath("A", "G")));
+            Assert.assertEquals("[]", Arrays.toString(graph.secondShortestPath("A", "G")));
+
             graph = graph.readWeighted("C:\\Users\\clin1\\Documents\\CSDS_233_Data_Structures\\P6\\weightedExample2.txt");
             Assert.assertEquals("[A, C]", Arrays.toString(graph.shortestPath("A", "C")));
             Assert.assertEquals("[A, B, C]", Arrays.toString(graph.secondShortestPath("A", "C")));
+
+            // second shortest on same node (fails this test case)
+            Assert.assertEquals("[]", Arrays.toString(graph.secondShortestPath("C", "C")));
 
         } catch (Exception e) {
             Assert.assertTrue(false);
