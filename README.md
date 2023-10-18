@@ -2,7 +2,7 @@
 
 Weighted and unweighted graph implementations in Java.
 
-**Features**:
+#### Features:
 - Depth-First Search
     - Can specify alphabetical or reverse-alphabetical search priority
 - Breadth-First Search
